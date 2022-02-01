@@ -38,19 +38,15 @@ class DesktopDropWeb {
       try {
         final items = event.dataTransfer.files;
         if (items != null) {
-          for (final item in items) {
-            results.add(
-              WebDropItem(
-                uri: html.Url.createObjectUrl(item),
-                name: item.name,
-                size: item.size,
-                type: item.type,
-                relativePath: item.relativePath,
-                lastModified: item.lastModified != null
-                    ? DateTime.fromMillisecondsSinceEpoch(item.lastModified!)
-                    : item.lastModifiedDate,
-              ),
-            );
+          for (var index = 0; index < items.length; index++) {
+            results.add(WebDropItem(
+              uri: html.Url.createObjectUrl(items[index]),
+              name: items[index].name,
+              size: items[index].size,
+              type: items[index].type,
+              relativePath: items[index].relativePath,
+              lastModified: DateTime.now(),
+            ));
           }
         }
       } catch (e, s) {
