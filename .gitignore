@@ -1,5 +1,13 @@
+.DS_Store
+.dart_tool/
 
-# Clion cmake build directory.
-cmake-build-*
+.packages
+.pub/
 
-/.idea
+build/
+
+.idea
+
+*.iml
+
+pubspec.lock

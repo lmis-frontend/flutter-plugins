@@ -1,17 +1,72 @@
-# flutter-plugins
+# desktop_drop
 
-This repo contains the source code for Flutter plugins which used in Mixin. Check the `packages` directory for all plugins.
+[![Pub](https://img.shields.io/pub/v/desktop_drop.svg)](https://pub.dev/packages/desktop_drop)
 
-## Plugins
+A plugin which allows user dragging files to your flutter desktop applications.
 
-| Plugin                                                      | Pub                                                                                                                        | Likes                                                                                                              | Platforms             |
-|-------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|-----------------------|
-| [desktop_drop](./packages/desktop_drop)                     | [![pub package](https://img.shields.io/pub/v/desktop_drop.svg)](https://pub.dev/packages/desktop_drop)                     | [![likes](https://badges.bar/desktop_drop/likes)](https://pub.dev/packages/desktop_drop/score)                     | Windows, Linux, macOS |
-| [desktop_lifecycle](./packages/desktop_lifecycle)           | [![pub package](https://img.shields.io/pub/v/desktop_lifecycle.svg)](https://pub.dev/packages/desktop_lifecycle)           | [![likes](https://badges.bar/desktop_lifecycle/likes)](https://pub.dev/packages/desktop_lifecycle/score)           | Windows, Linux, macOS |
-| [ogg_opus_player](./packages/ogg_opus_player)               | [![pub package](https://img.shields.io/pub/v/ogg_opus_player.svg)](https://pub.dev/packages/ogg_opus_player)               | [![likes](https://badges.bar/ogg_opus_player/likes)](https://pub.dev/packages/ogg_opus_player/score)               | macOS, iOS            |
-| [pasteboard](./packages/pasteboard)                         | [![Pub](https://img.shields.io/pub/v/pasteboard.svg)](https://pub.dev/packages/pasteboard)                                 | [![likes](https://badges.bar/pasteboard/likes)](https://pub.dev/packages/pasteboard/score)                         | Windows, Linux, macOS |
-| [win_toast](./packages/win_toast)                           | [![pub package](https://img.shields.io/pub/v/win_toast.svg)](https://pub.dev/packages/win_toast)                           | [![likes](https://badges.bar/win_toast/likes)](https://pub.dev/packages/win_toast/score)                           | Windows               |
-| [desktop_webview_window](./packages/desktop_webview_window) | [![pub package](https://img.shields.io/pub/v/desktop_webview_window.svg)](https://pub.dev/packages/desktop_webview_window) | [![likes](https://badges.bar/desktop_webview_window/likes)](https://pub.dev/packages/desktop_webview_window/score) | Windows, Linux, macOS |
-| [fts5_simple](./packages/fts5_simple)                       | [![pub package](https://img.shields.io/pub/v/fts5_simple.svg)](https://pub.dev/packages/fts5_simple)                       | [![likes](https://badges.bar/fts5_simple/likes)](https://pub.dev/packages/fts5_simple/score)                       | Windows, Linux, macOS |
-| [desktop_multi_window](./packages/desktop_multi_window)     | [![pub package](https://img.shields.io/pub/v/desktop_multi_window.svg)](https://pub.dev/packages/desktop_multi_window)     | [![likes](https://badges.bar/desktop_multi_window/likes)](https://pub.dev/packages/desktop_multi_window/score)     | Windows, Linux, macOS |
+|         |            |
+|---------|------------|
+| Windows | ✅          |
+| Linux   | ✅          |
+| macOS   | ✅          |
+| Android | ✅(preview) |
+| Web     | ✅          |
 
+## Getting Started
+
+1. Add `desktop_drop` to your `pubspec.yaml`.
+
+```yaml
+  desktop_drop: $latest_version
+```
+
+2. Then you can use `DropTarget` to receive file drop events.
+
+```dart
+class ExmapleDragTarget extends StatefulWidget {
+  const ExmapleDragTarget({Key? key}) : super(key: key);
+
+  @override
+  _ExmapleDragTargetState createState() => _ExmapleDragTargetState();
+}
+
+class _ExmapleDragTargetState extends State<ExmapleDragTarget> {
+  final List<XFile> _list = [];
+
+  bool _dragging = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropTarget(
+      onDragDone: (detail) {
+        setState(() {
+          _list.addAll(detail.files);
+        });
+      },
+      onDragEntered: (detail) {
+        setState(() {
+          _dragging = true;
+        });
+      },
+      onDragExited: (detail) {
+        setState(() {
+          _dragging = false;
+        });
+      },
+      child: Container(
+        height: 200,
+        width: 200,
+        color: _dragging ? Colors.blue.withOpacity(0.4) : Colors.black26,
+        child: _list.isEmpty
+            ? const Center(child: Text("Drop here"))
+            : Text(_list.join("\n")),
+      ),
+    );
+  }
+}
+
+```
+
+## LICENSE
+
+see LICENSE file
